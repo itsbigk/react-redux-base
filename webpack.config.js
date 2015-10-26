@@ -1,6 +1,6 @@
 module.exports = {
   resolve: {
-    extensions: ['', '.js', '.jsx', '.less']
+    extensions: ['', '.js', '.jsx', '.scss']
   },
   output: {
     filename: "bundle.js"
@@ -12,12 +12,6 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components)/,
         loader: 'babel'
-      },
-      // LESS
-      {
-        test: /\.less$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: 'style!css!less'
       }
     ]
   }

@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ktk10191/node-react.git"
+    "url": "git+https://github.com/itsbigk/node-react.git"
   },
   "author": "Kyle Knott",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ktk10191/node-react/issues"
+    "url": "https://github.com/itsbigk/node-react/issues"
   },
-  "homepage": "https://github.com/ktk10191/node-react#readme",
+  "homepage": "https://github.com/itsbigk/node-react#readme",
   "dependencies": {
     "body-parser": "^1.14.0",
     "express": "^4.13.3",
@@ -33,9 +33,10 @@
     "babel-loader": "^5.3.2",
     "gulp": "^3.9.0",
     "gulp-nodemon": "^2.0.4",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.0.4",
+    "gulp-sourcemaps": "^1.6.0",
     "gulp-webpack": "^1.5.0",
-    "less": "^2.5.1",
-    "less-loader": "^2.2.1",
     "webpack": "^1.12.2"
   }
 }
