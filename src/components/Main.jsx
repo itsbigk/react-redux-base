@@ -1,9 +1,11 @@
 import React from 'react'
-import RouteHandler from 'react-router'
+import { RouteHandler } from 'react-router'
 
 class Main extends React.Component {
   constructor() {
     super()
+
+    this.state = {}
   }
 
   render() {
@@ -11,7 +13,7 @@ class Main extends React.Component {
       <div>
         // Add navbar
         <div className="container">
-          <RouteHandler />
+          <RouteHandler {...this.state} />
         </div>
       </div>
     )
