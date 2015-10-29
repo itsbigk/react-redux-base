@@ -22,7 +22,7 @@ gulp.task('sass', function() {
 
 
 gulp.task('watch', function() {
-  gulp.watch('./src/**/*.js' && './src/**/*.jsx', ['webpack']);
+  gulp.watch(['./src/**/*.js', './src/**/*.jsx'], ['webpack']);
   gulp.watch('./src/sass/*', ['sass']);
 });
 
@@ -38,4 +38,4 @@ gulp.task('nodemon', function() {
     });
 });
 
-gulp.task('default', ['nodemon'])
+gulp.task('default', ['nodemon']);
