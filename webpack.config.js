@@ -7,15 +7,8 @@ module.exports = {
   },
   module: {
     loaders: [
-      // JSX
       {
-        test: /\.jsx?$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: 'babel'
-      },
-      // JS
-      {
-        test: /\.js?$/,
+        test: /\.(js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
         loader: 'babel'
       }

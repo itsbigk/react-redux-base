@@ -1,11 +1,22 @@
 import React from 'react'
 import { RouteHandler } from 'react-router'
 
+function getUser() {
+  return userStore.getCurrentUser()
+}
+
+function getDevices() {
+  return deviceStore.getDeviceList()
+}
+
 class Main extends React.Component {
   constructor() {
     super()
 
-    this.state = {}
+    this.state = {
+      currentUser: getUser(),
+      devices: getDevices()
+    }
   }
 
   render() {

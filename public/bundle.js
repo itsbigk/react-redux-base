@@ -24041,6 +24041,14 @@
 
 	var _reactRouter = __webpack_require__(157);
 
+	function getUser() {
+	  return userStore.getCurrentUser();
+	}
+
+	function getDevices() {
+	  return deviceStore.getDeviceList();
+	}
+
 	var Main = (function (_React$Component) {
 	  _inherits(Main, _React$Component);
 
@@ -24049,7 +24057,10 @@
 
 	    _get(Object.getPrototypeOf(Main.prototype), 'constructor', this).call(this);
 
-	    this.state = {};
+	    this.state = {
+	      currentUser: getUser(),
+	      devices: getDevices()
+	    };
 	  }
 
 	  _createClass(Main, [{
