@@ -9,8 +9,10 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        
+        <h1>Working app</h1>
       </div>
     )
   }
 }
+
+export default Home

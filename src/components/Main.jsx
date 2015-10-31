@@ -1,5 +1,7 @@
 import React from 'react'
 import { RouteHandler } from 'react-router'
+import userStore from '../stores/userStore'
+import deviceStore from '../stores/deviceStore'
 
 function getUser() {
   return userStore.getCurrentUser()

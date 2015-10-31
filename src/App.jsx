@@ -3,9 +3,11 @@ import Router from 'react-router'
 import ReactDOM from 'react-dom'
 import routes from './config/routes'
 
-Router.run(routes, (Root) => {
-  ReactDOM.render(<Root />, document.getElementById('app'))
-})
+ReactDOM.render(<Router routes={routes} />, document.getElementById('app'))
+
+// Router.run(routes, (Root) => {
+//   ReactDOM.render(<Root />, document.getElementById('app'))
+// })
 
 // @TODO make sure that this works before delete
 // class App extends React.Component {
