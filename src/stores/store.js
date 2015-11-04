@@ -1,8 +1,9 @@
-import EventEmitter from 'events'
+import { EventEmitter } from 'events'
 
 const CHANGE_EVENT = 'change'
 
 class Store extends EventEmitter {
+
   constructor() {
     super()
   }
@@ -20,6 +21,6 @@ class Store extends EventEmitter {
   }
 }
 
-const store = new Store()
+Store.dispatchToken = null
 
-export default store
+export default Store

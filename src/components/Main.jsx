@@ -1,32 +1,24 @@
 import React from 'react'
 import { RouteHandler } from 'react-router'
-import userStore from '../stores/userStore'
-import deviceStore from '../stores/deviceStore'
-
-function getUser() {
-  return userStore.getCurrentUser()
-}
-
-function getDevices() {
-  return deviceStore.getDeviceList()
-}
+import UserStore from '../stores/userStore'
+import DeviceStore from '../stores/deviceStore'
 
 class Main extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
-      currentUser: getUser(),
-      devices: getDevices()
+      currentUser: UserStore.getCurrentUser(),
+      devices: DeviceStore.getDeviceList()
     }
   }
 
   render() {
     return (
       <div>
-        // Add navbar
+        {/* Add navbar */}
         <div className="container">
-          <RouteHandler {...this.state} />
+          {this.props.children}
         </div>
       </div>
     )

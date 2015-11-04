@@ -54,32 +54,30 @@
 
 	var _reactRouter = __webpack_require__(157);
 
-	var _reactRouter2 = _interopRequireDefault(_reactRouter);
-
 	var _reactDom = __webpack_require__(203);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
 
 	var _configRoutes = __webpack_require__(204);
 
 	var _configRoutes2 = _interopRequireDefault(_configRoutes);
 
-	_reactDom2['default'].render(_react2['default'].createElement(_reactRouter2['default'], { routes: _configRoutes2['default'] }), document.getElementById('app'));
+	var _actionsAppActionCreators = __webpack_require__(220);
 
-	// Router.run(routes, (Root) => {
-	//   ReactDOM.render(<Root />, document.getElementById('app'))
-	// })
+	var _actionsAppActionCreators2 = _interopRequireDefault(_actionsAppActionCreators);
 
-	// @TODO make sure that this works before delete
-	// class App extends React.Component {
-	//   render() {
-	//     return (
-	//       <div>Working App</div>
-	//     )
-	//   }
-	// }
-	//
-	// React.render(<App />, document.getElementById('app'))
+	var _historyLibCreateBrowserHistory = __webpack_require__(221);
+
+	var _historyLibCreateBrowserHistory2 = _interopRequireDefault(_historyLibCreateBrowserHistory);
+
+	var history = (0, _historyLibCreateBrowserHistory2['default'])();
+
+	// @TODO begin action for app init to make sure the components have the latest content
+	// the stores will pick on the dispatch from the action if they have a case in the switch
+
+	(0, _reactDom.render)(_react2['default'].createElement(
+	  _reactRouter.Router,
+	  { history: history },
+	  _configRoutes2['default']
+	), document.getElementById('app'));
 
 /***/ },
 /* 1 */
@@ -23995,11 +23993,11 @@
 
 	var _componentsMain2 = _interopRequireDefault(_componentsMain);
 
-	var _componentsHome = __webpack_require__(215);
+	var _componentsHome = __webpack_require__(218);
 
 	var _componentsHome2 = _interopRequireDefault(_componentsHome);
 
-	var _componentsNotFound = __webpack_require__(216);
+	var _componentsNotFound = __webpack_require__(219);
 
 	var _componentsNotFound2 = _interopRequireDefault(_componentsNotFound);
 
@@ -24047,29 +24045,21 @@
 
 	var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
 
-	var _storesDeviceStore = __webpack_require__(214);
+	var _storesDeviceStore = __webpack_require__(216);
 
 	var _storesDeviceStore2 = _interopRequireDefault(_storesDeviceStore);
-
-	function getUser() {
-	  return _storesUserStore2['default'].getCurrentUser();
-	}
-
-	function getDevices() {
-	  return _storesDeviceStore2['default'].getDeviceList();
-	}
 
 	var Main = (function (_React$Component) {
 	  _inherits(Main, _React$Component);
 
-	  function Main() {
+	  function Main(props) {
 	    _classCallCheck(this, Main);
 
-	    _get(Object.getPrototypeOf(Main.prototype), 'constructor', this).call(this);
+	    _get(Object.getPrototypeOf(Main.prototype), 'constructor', this).call(this, props);
 
 	    this.state = {
-	      currentUser: getUser(),
-	      devices: getDevices()
+	      currentUser: _storesUserStore2['default'].getCurrentUser(),
+	      devices: _storesDeviceStore2['default'].getDeviceList()
 	    };
 	  }
 
@@ -24079,11 +24069,10 @@
 	      return _react2['default'].createElement(
 	        'div',
 	        null,
-	        '// Add navbar',
 	        _react2['default'].createElement(
 	          'div',
 	          { className: 'container' },
-	          _react2['default'].createElement(_reactRouter.RouteHandler, this.state)
+	          this.props.children
 	        )
 	      );
 	    }
@@ -24094,6 +24083,7 @@
 
 	exports['default'] = Main;
 	module.exports = exports['default'];
+	/* Add navbar */
 
 /***/ },
 /* 206 */
@@ -24115,57 +24105,79 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _store2 = __webpack_require__(207);
+	var _store = __webpack_require__(207);
 
-	var _store3 = _interopRequireDefault(_store2);
+	var _store2 = _interopRequireDefault(_store);
 
 	var _dispatchersAppDispatcher = __webpack_require__(209);
 
 	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
 
-	var _constantsActionTypes = __webpack_require__(213);
+	var _constantsAppConstants = __webpack_require__(213);
 
-	var _constantsActionTypes2 = _interopRequireDefault(_constantsActionTypes);
+	var _constantsAppConstants2 = _interopRequireDefault(_constantsAppConstants);
 
-	var CHANGE_EVENT = 'change';
+	var _constantsUserConstants = __webpack_require__(215);
 
-	var UserStore = (function (_store) {
-	  _inherits(UserStore, _store);
+	var _constantsUserConstants2 = _interopRequireDefault(_constantsUserConstants);
 
-	  function UserStore() {
-	    _classCallCheck(this, UserStore);
+	var userState = {
+	  currentUser: {},
+	  users: []
+	};
 
-	    _get(Object.getPrototypeOf(UserStore.prototype), 'constructor', this).call(this);
-	    currentUser = {};
-	    users = [];
+	var userStore = (function (_Store) {
+	  _inherits(userStore, _Store);
+
+	  function userStore() {
+	    _classCallCheck(this, userStore);
+
+	    _get(Object.getPrototypeOf(userStore.prototype), 'constructor', this).call(this);
 	  }
 
-	  _createClass(UserStore, [{
+	  _createClass(userStore, [{
 	    key: 'getAllUsers',
 	    value: function getAllUsers() {
-	      return users;
+	      return userState.users;
 	    }
 	  }, {
 	    key: 'getCurrentUser',
 	    value: function getCurrentUser() {
-	      return currentUser;
+	      return userState.currentUser;
 	    }
 	  }]);
 
-	  return UserStore;
-	})(_store3['default']);
+	  return userStore;
+	})(_store2['default']);
 
-	var userStore = new UserStore();
+	var UserStore = new userStore();
 
-	userStore.dispatchToken = _dispatchersAppDispatcher2['default'].register(function (action) {
+	UserStore.dispatchToken = _dispatchersAppDispatcher2['default'].register(function (action) {
 	  switch (action.type) {
+	    case _constantsUserConstants2['default'].LOGIN:
+	      userState.currentUser = action.user;
+	      break;
+
+	    case _constantsUserConstants2['default'].LOGOUT:
+	      userState.currentUser = {};
+	      break;
+
+	    case _constantsUserConstants2['default'].REGISTER:
+	      userState.currentUser = action.user;
+	      break;
+
+	    case _constantsUserConstants2['default'].LIST:
+	      userState.users = action.users;
+	      break;
 
 	    default:
 	      return;
 	  }
+
+	  UserStore.emitChange();
 	});
 
-	exports['default'] = userStore;
+	exports['default'] = UserStore;
 	module.exports = exports['default'];
 
 /***/ },
@@ -24182,15 +24194,11 @@
 
 	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var _events = __webpack_require__(208);
-
-	var _events2 = _interopRequireDefault(_events);
 
 	var CHANGE_EVENT = 'change';
 
@@ -24221,11 +24229,11 @@
 	  }]);
 
 	  return Store;
-	})(_events2['default']);
+	})(_events.EventEmitter);
 
-	var store = new Store();
+	Store.dispatchToken = null;
 
-	exports['default'] = store;
+	exports['default'] = Store;
 	module.exports = exports['default'];
 
 /***/ },
@@ -24546,61 +24554,42 @@
 
 	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var _flux = __webpack_require__(210);
 
-	var _constantsActionTypes = __webpack_require__(213);
+	var DispatcherClass = (function (_Dispatcher) {
+	  _inherits(DispatcherClass, _Dispatcher);
 
-	var _constantsActionTypes2 = _interopRequireDefault(_constantsActionTypes);
+	  function DispatcherClass() {
+	    _classCallCheck(this, DispatcherClass);
 
-	var AppDispatcher = (function (_Dispatcher) {
-	  _inherits(AppDispatcher, _Dispatcher);
-
-	  function AppDispatcher() {
-	    _classCallCheck(this, AppDispatcher);
-
-	    _get(Object.getPrototypeOf(AppDispatcher.prototype), 'constructor', this).apply(this, arguments);
+	    _get(Object.getPrototypeOf(DispatcherClass.prototype), 'constructor', this).apply(this, arguments);
 	  }
 
-	  _createClass(AppDispatcher, [{
-	    key: 'handleServerAction',
-	    value: function handleServerAction(action) {
-	      console.log('In dispatcher for server action: %s', action);
+	  _createClass(DispatcherClass, [{
+	    key: 'handleAction',
+	    value: function handleAction(action) {
+	      console.log('In dispatcher for action: %s', action);
 	      if (!action.type) {
 	        throw new Error('Empty action');
 	      }
 
 	      this.dispatch({
-	        source: _constantsActionTypes2['default'].SERVER_ACTION,
-	        action: action
-	      });
-	    }
-	  }, {
-	    key: 'handleViewAction',
-	    value: function handleViewAction(action) {
-	      console.log('In dispatcher for view action: %s', action);
-	      if (!action.type) {
-	        throw new Error('Empty action');
-	      }
-
-	      this.dispatch({
-	        source: _constantsActionTypes2['default'].VIEW_ACTION,
+	        type: action.type,
 	        action: action
 	      });
 	    }
 	  }]);
 
-	  return AppDispatcher;
+	  return DispatcherClass;
 	})(_flux.Dispatcher);
 
-	var dispatcher = new AppDispatcher();
+	var AppDispatcher = new DispatcherClass();
 
-	exports['default'] = dispatcher;
+	exports['default'] = AppDispatcher;
 	module.exports = exports['default'];
 
 /***/ },
@@ -24913,23 +24902,212 @@
 
 /***/ },
 /* 213 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var ActionTypes = {
-	  SERVER_ACTION: 'server',
-	  VIEW_ACTION: 'view'
-	};
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _keyMirror = __webpack_require__(214);
+
+	var _keyMirror2 = _interopRequireDefault(_keyMirror);
+
+	var AppTypes = (0, _keyMirror2['default'])({
+	  APP_INIT: null
+	});
+	exports.AppTypes = AppTypes;
 
 /***/ },
 /* 214 */
 /***/ function(module, exports) {
 
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 */
+
 	"use strict";
+
+	/**
+	 * Constructs an enumeration with keys equal to their value.
+	 *
+	 * For example:
+	 *
+	 *   var COLORS = keyMirror({blue: null, red: null});
+	 *   var myColor = COLORS.blue;
+	 *   var isColorValid = !!COLORS[myColor];
+	 *
+	 * The last line could not be performed if the values of the generated enum were
+	 * not equal to their keys.
+	 *
+	 *   Input:  {key1: val1, key2: val2}
+	 *   Output: {key1: key1, key2: key2}
+	 *
+	 * @param {object} obj
+	 * @return {object}
+	 */
+	var keyMirror = function(obj) {
+	  var ret = {};
+	  var key;
+	  if (!(obj instanceof Object && !Array.isArray(obj))) {
+	    throw new Error('keyMirror(...): Argument must be an object.');
+	  }
+	  for (key in obj) {
+	    if (!obj.hasOwnProperty(key)) {
+	      continue;
+	    }
+	    ret[key] = key;
+	  }
+	  return ret;
+	};
+
+	module.exports = keyMirror;
+
 
 /***/ },
 /* 215 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _keyMirror = __webpack_require__(214);
+
+	var _keyMirror2 = _interopRequireDefault(_keyMirror);
+
+	var UserTypes = (0, _keyMirror2['default'])({
+	  LOGIN: null,
+	  LOGOUT: null,
+	  REGISTER: null,
+	  LIST: null
+	});
+	exports.UserTypes = UserTypes;
+
+/***/ },
+/* 216 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _store = __webpack_require__(207);
+
+	var _store2 = _interopRequireDefault(_store);
+
+	var _dispatchersAppDispatcher = __webpack_require__(209);
+
+	var _dispatchersAppDispatcher2 = _interopRequireDefault(_dispatchersAppDispatcher);
+
+	var _constantsAppConstants = __webpack_require__(213);
+
+	var _constantsAppConstants2 = _interopRequireDefault(_constantsAppConstants);
+
+	var _constantsDeviceConstants = __webpack_require__(217);
+
+	var _constantsDeviceConstants2 = _interopRequireDefault(_constantsDeviceConstants);
+
+	var deviceList = {};
+
+	var deviceStore = (function (_Store) {
+	  _inherits(deviceStore, _Store);
+
+	  function deviceStore() {
+	    _classCallCheck(this, deviceStore);
+
+	    _get(Object.getPrototypeOf(deviceStore.prototype), 'constructor', this).call(this);
+	  }
+
+	  _createClass(deviceStore, [{
+	    key: 'getDeviceList',
+	    value: function getDeviceList() {
+	      return deviceList;
+	    }
+	  }]);
+
+	  return deviceStore;
+	})(_store2['default']);
+
+	var DeviceStore = new deviceStore();
+
+	DeviceStore.dispatchToken = _dispatchersAppDispatcher2['default'].register(function (aciton) {
+	  switch (action.type) {
+
+	    case _constantsAppConstants2['default'].APP_INIT:
+	      deviceList = action.devices;
+	      break;
+
+	    case _constantsDeviceConstants2['default'].DEVICE_UPDATE:
+	      deviceList = action.devices;
+	      break;
+
+	    default:
+	      return;
+	  }
+	  DeviceStore.emitChange();
+	});
+
+	exports['default'] = DeviceStore;
+	module.exports = exports['default'];
+
+/***/ },
+/* 217 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _keyMirror = __webpack_require__(214);
+
+	var _keyMirror2 = _interopRequireDefault(_keyMirror);
+
+	var DeviceTypes = (0, _keyMirror2['default'])({
+	  NEW_DEVICE: null,
+	  REMOVE_DEVICE: null,
+	  UPDATE_DEVICE: null
+	});
+	exports.DeviceTypes = DeviceTypes;
+
+/***/ },
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24987,7 +25165,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 216 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25050,6 +25228,186 @@
 	})(_react2['default'].Component);
 
 	exports['default'] = NotFound;
+	module.exports = exports['default'];
+
+/***/ },
+/* 220 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	// @TODO make actions such as one for app initialization
+
+/***/ },
+/* 221 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _invariant = __webpack_require__(161);
+
+	var _invariant2 = _interopRequireDefault(_invariant);
+
+	var _Actions = __webpack_require__(162);
+
+	var _ExecutionEnvironment = __webpack_require__(163);
+
+	var _DOMUtils = __webpack_require__(164);
+
+	var _DOMStateStorage = __webpack_require__(165);
+
+	var _createDOMHistory = __webpack_require__(166);
+
+	var _createDOMHistory2 = _interopRequireDefault(_createDOMHistory);
+
+	/**
+	 * Creates and returns a history object that uses HTML5's history API
+	 * (pushState, replaceState, and the popstate event) to manage history.
+	 * This is the recommended method of managing history in browsers because
+	 * it provides the cleanest URLs.
+	 *
+	 * Note: In browsers that do not support the HTML5 history API full
+	 * page reloads will be used to preserve URLs.
+	 */
+	function createBrowserHistory(options) {
+	  _invariant2['default'](_ExecutionEnvironment.canUseDOM, 'Browser history needs a DOM');
+
+	  var isSupported = _DOMUtils.supportsHistory();
+
+	  function getCurrentLocation(historyState) {
+	    historyState = historyState || window.history.state || {};
+
+	    var path = _DOMUtils.getWindowPath();
+	    var _historyState = historyState;
+	    var key = _historyState.key;
+
+	    var state = undefined;
+	    if (key) {
+	      state = _DOMStateStorage.readState(key);
+	    } else {
+	      state = null;
+	      key = history.createKey();
+
+	      if (isSupported) window.history.replaceState(_extends({}, historyState, { key: key }), null, path);
+	    }
+
+	    return history.createLocation(path, state, undefined, key);
+	  }
+
+	  function startPopStateListener(_ref) {
+	    var transitionTo = _ref.transitionTo;
+
+	    function popStateListener(event) {
+	      if (event.state === undefined) return; // Ignore extraneous popstate events in WebKit.
+
+	      transitionTo(getCurrentLocation(event.state));
+	    }
+
+	    _DOMUtils.addEventListener(window, 'popstate', popStateListener);
+
+	    return function () {
+	      _DOMUtils.removeEventListener(window, 'popstate', popStateListener);
+	    };
+	  }
+
+	  function finishTransition(location) {
+	    var basename = location.basename;
+	    var pathname = location.pathname;
+	    var search = location.search;
+	    var hash = location.hash;
+	    var state = location.state;
+	    var action = location.action;
+	    var key = location.key;
+
+	    if (action === _Actions.POP) return; // Nothing to do.
+
+	    _DOMStateStorage.saveState(key, state);
+
+	    var path = (basename || '') + pathname + search + hash;
+	    var historyState = {
+	      key: key
+	    };
+
+	    if (action === _Actions.PUSH) {
+	      if (isSupported) {
+	        window.history.pushState(historyState, null, path);
+	      } else {
+	        // Use a full-page reload to preserve the URL.
+	        window.location.href = path;
+	      }
+	    } else {
+	      // REPLACE
+	      if (isSupported) {
+	        window.history.replaceState(historyState, null, path);
+	      } else {
+	        // Use a full-page reload to preserve the URL.
+	        window.location.replace(path);
+	      }
+	    }
+	  }
+
+	  var history = _createDOMHistory2['default'](_extends({}, options, {
+	    getCurrentLocation: getCurrentLocation,
+	    finishTransition: finishTransition,
+	    saveState: _DOMStateStorage.saveState
+	  }));
+
+	  var listenerCount = 0,
+	      stopPopStateListener = undefined;
+
+	  function listenBefore(listener) {
+	    if (++listenerCount === 1) stopPopStateListener = startPopStateListener(history);
+
+	    var unlisten = history.listenBefore(listener);
+
+	    return function () {
+	      unlisten();
+
+	      if (--listenerCount === 0) stopPopStateListener();
+	    };
+	  }
+
+	  function listen(listener) {
+	    if (++listenerCount === 1) stopPopStateListener = startPopStateListener(history);
+
+	    var unlisten = history.listen(listener);
+
+	    return function () {
+	      unlisten();
+
+	      if (--listenerCount === 0) stopPopStateListener();
+	    };
+	  }
+
+	  // deprecated
+	  function registerTransitionHook(hook) {
+	    if (++listenerCount === 1) stopPopStateListener = startPopStateListener(history);
+
+	    history.registerTransitionHook(hook);
+	  }
+
+	  // deprecated
+	  function unregisterTransitionHook(hook) {
+	    history.unregisterTransitionHook(hook);
+
+	    if (--listenerCount === 0) stopPopStateListener();
+	  }
+
+	  return _extends({}, history, {
+	    listenBefore: listenBefore,
+	    listen: listen,
+	    registerTransitionHook: registerTransitionHook,
+	    unregisterTransitionHook: unregisterTransitionHook
+	  });
+	}
+
+	exports['default'] = createBrowserHistory;
 	module.exports = exports['default'];
 
 /***/ }

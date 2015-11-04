@@ -1,21 +1,13 @@
 import React from 'react'
-import Router from 'react-router'
-import ReactDOM from 'react-dom'
+import { Router } from 'react-router'
+import { render } from 'react-dom'
 import routes from './config/routes'
+import AppActionCreators from './actions/appActionCreators'
+import createBrowserHistory from 'history/lib/createBrowserHistory'
 
-ReactDOM.render(<Router routes={routes} />, document.getElementById('app'))
+let history = createBrowserHistory()
 
-// Router.run(routes, (Root) => {
-//   ReactDOM.render(<Root />, document.getElementById('app'))
-// })
+// @TODO begin action for app init to make sure the components have the latest content
+// the stores will pick on the dispatch from the action if they have a case in the switch
 
-// @TODO make sure that this works before delete
-// class App extends React.Component {
-//   render() {
-//     return (
-//       <div>Working App</div>
-//     )
-//   }
-// }
-//
-// React.render(<App />, document.getElementById('app'))
+render(<Router history={history}>{routes}</Router>, document.getElementById('app'))

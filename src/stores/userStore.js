@@ -1,33 +1,52 @@
-import store from './store'
-import dispatcher from '../dispatchers/AppDispatcher'
-import ActionTypes from '../constants/ActionTypes'
+import Store from './store'
+import AppDispatcher from '../dispatchers/AppDispatcher'
+import AppTypes from '../constants/AppConstants'
+import UserTypes from '../constants/UserConstants'
 
-const CHANGE_EVENT = 'change'
+let userState = {
+  currentUser: {},
+  users: []
+}
 
-class UserStore extends store {
+class userStore extends Store {
   constructor() {
     super()
-    currentUser = {}
-    users = []
   }
 
   getAllUsers() {
-    return users
+    return userState.users
   }
 
   getCurrentUser() {
-    return currentUser
+    return userState.currentUser
   }
 }
 
-const userStore = new UserStore()
+let UserStore = new userStore()
 
-userStore.dispatchToken = dispatcher.register(action => {
+UserStore.dispatchToken = AppDispatcher.register(action => {
   switch (action.type) {
+    case UserTypes.LOGIN:
+      userState.currentUser = action.user
+      break
+
+    case UserTypes.LOGOUT:
+      userState.currentUser = {}
+      break
+
+    case UserTypes.REGISTER:
+      userState.currentUser = action.user
+      break
+
+    case UserTypes.LIST:
+      userState.users = action.users
+      break
 
     default:
       return
   }
+
+  UserStore.emitChange()
 })
 
-export default userStore
+export default UserStore
