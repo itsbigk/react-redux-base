@@ -1,5 +1,5 @@
 import React from 'react'
-import { RouteHandler } from 'react-router'
+import { RouteHandler, Link } from 'react-router'
 import UserStore from '../stores/userStore'
 import DeviceStore from '../stores/deviceStore'
 
@@ -17,6 +17,7 @@ class Main extends React.Component {
     return (
       <div>
         {/* Add navbar */}
+        <Link to="/home">Home</Link>
         <div className="container">
           {this.props.children}
         </div>
