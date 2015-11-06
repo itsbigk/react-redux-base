@@ -8,7 +8,7 @@ import bodyParser from 'body-parser'
 import methodOverride from 'method-override'
 import morgan from 'morgan'
 import routes from '../src/config/routes.jsx'
-import api from './routes/api'
+import api from './api'
 import db from './db'
 
 const app  = express()
