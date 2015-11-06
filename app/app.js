@@ -1,9 +1,13 @@
 import http from 'http'
 import express from 'express'
+import React from 'react'
+import { RoutingContext, match } from 'react-router'
+import { renderToString } from 'react-dom/server'
+import createLocation from 'history/lib/createLocation'
 import bodyParser from 'body-parser'
 import methodOverride from 'method-override'
 import morgan from 'morgan'
-// import routes from './routes/routes'
+import routes from '../src/config/routes.jsx'
 import api from './routes/api'
 import db from './db'
 
@@ -21,9 +25,23 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }))
 app.use(methodOverride())
 
 db(() => {
-  // app.use(routes())
 
   app.use('/api', api())
+
+  app.use('/', (req, res) => {
+    let location = createLocation(req.url)
+
+    match({routes, location}, (error, redirectLocation, renderProps) => {
+      if(redirectLocation)
+        res.redirect(301, redirectLocation.pathname + redirectLocation.search)
+      else if(error)
+        res.send(500, error.message)
+      else if(renderProps == null)
+        res.send(404, 'Not Found')
+      else
+        res.send(renderToString(<RoutingContext {...renderProps} />))
+    })
+  })
 
   app.server.listen(port)
 
@@ -31,7 +49,3 @@ db(() => {
 })
 
 export default app
-
-// require('./routes/routes.js')(app);
-
-// app.listen(port);
