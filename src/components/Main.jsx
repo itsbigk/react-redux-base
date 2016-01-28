@@ -1,6 +1,10 @@
 import React from 'react'
 import { RouteHandler, Link } from 'react-router'
 
+if(process.env.BROWSER) {
+  require('../scss/application.scss')
+}
+
 class Main extends React.Component {
   constructor(props) {
     super(props)
