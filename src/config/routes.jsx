@@ -1,9 +1,9 @@
 import React from 'react'
 import { Router, Route } from 'react-router'
 
-import Main from '../components/Main'
-import Home from '../components/Home'
-import NotFound from '../components/NotFound'
+import Main from '../components/Main/Main'
+import Home from '../components/Home/Home'
+import NotFound from '../components/NotFound/NotFound'
 
 var routes = (
   <Router>

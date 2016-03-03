@@ -5,7 +5,7 @@ import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import config from '../webpack.config.dev.js'
-import { RoutingContext, match } from 'react-router'
+import { RouterContext, match } from 'react-router'
 import { renderToString } from 'react-dom/server'
 import createLocation from 'history/lib/createLocation'
 import routes from '../src/config/routes.jsx'
@@ -66,7 +66,7 @@ db(() => {
     let location = createLocation(req.path)
 
     match({routes, location}, (error, redirectLocation, renderProps) => {
-      const initialComponent = renderToString(<RoutingContext {...renderProps} />)
+      const initialComponent = renderToString(<RouterContext {...renderProps} />)
 
       const HTML = `
       <!DOCTYPE html>

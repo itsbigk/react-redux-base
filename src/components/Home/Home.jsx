@@ -1,5 +1,9 @@
 import React from 'react'
-import Link from 'react-router'
+import { Link } from 'react-router'
+
+if(process.env.BROWSER) {
+  require('./style')
+}
 
 class Home extends React.Component {
   constructor(props) {
@@ -8,8 +12,8 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Working app!</h1>
+      <div className="home">
+        <h1 className="test">Working app!</h1>
       </div>
     )
   }
