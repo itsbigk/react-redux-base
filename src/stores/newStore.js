@@ -1,6 +1,5 @@
 import Store from './store'
-import AppDispatcher from '../dispatchers/AppDispatcher'
-import AppTypes from '../constants/AppTypes'
+import AppTypes from '../constants/AppConstants'
 
 class newStore extends Store {
   constructor() {
@@ -18,6 +17,4 @@ class newStore extends Store {
   }
 }
 
-let NewStore = new newStore()
-
-export default NewStore
+export default new newStore()

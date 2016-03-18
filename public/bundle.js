@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "2215df84d99757d1bd19"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "21eea6c421b737e44354"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -6016,7 +6016,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".home .test {\n  color: blue; }\n", "", {"version":3,"sources":["/./src/components/src/components/Home/style.scss"],"names":[],"mappings":"AAAA;EAEI,YAAY,EACb","file":"style.scss","sourcesContent":[".home {\n  .test {\n    color: blue;\n  }\n}\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"style.scss","sourceRoot":"webpack://"}]);
 	
 	// exports
 
