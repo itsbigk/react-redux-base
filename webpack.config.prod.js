@@ -37,8 +37,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ["style", "css?sourceMap", "sass?sourceMap"],
-        includePaths: [path.resolve(__dirname, '/node_modules/foundation-sites/scss/')]
+        loaders: ["style", "css?sourceMap", "sass?sourceMap"]
       },
       { test: /\.gif$/, loader: "url-loader?limit=10000&mimetype=image/gif" },
       { test: /\.jpg$/, loader: "url-loader?limit=10000&mimetype=image/jpg" },

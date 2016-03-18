@@ -1,15 +1,13 @@
 import React from 'react'
-import { RouteHandler, Link } from 'react-router'
+import { Link } from 'react-router'
 
 if(process.env.BROWSER) {
-  require('../scss/application.scss')
+  require('../../scss/application')
 }
 
 class Main extends React.Component {
   constructor(props) {
     super(props)
-
-    this.state = {}
   }
 
   render() {
@@ -17,9 +15,9 @@ class Main extends React.Component {
       <div>
         {/* Add navbar */}
         <Link to="/home">Home</Link>
-        <div className="container">
-          {this.props.children}
-        </div>
+
+        {this.props.children}
+
       </div>
     )
   }
