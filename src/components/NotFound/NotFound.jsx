@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router'
+import './style.scss'
 
-if(process.env.BROWSER) {
-  require('./style')
-}
+// if(process.env.BROWSER) {
+//   require('./style.scss')
+// }
 
 class NotFound extends React.Component {
   render() {

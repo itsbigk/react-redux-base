@@ -1,5 +1,5 @@
-var webpack = require('webpack');
-var path = require('path');
+var webpack = require('webpack'),
+    path = require('path');
 
 module.exports = {
   entry: [
@@ -17,14 +17,14 @@ module.exports = {
     new webpack.NoErrorsPlugin()
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx', '.scss']
+    extensions: ['', '.js', '.jsx']
   },
   output: {
     filename: 'bundle.js',
     path: __dirname + '/public',
     publicPath: '/assets/'
   },
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   module: {
     preLoaders: [
         {
@@ -35,10 +35,13 @@ module.exports = {
     ],
     loaders: [
       {
-        test: /\.(js|jsx)$/,
-        exclude: /(node_modules|bower_components)/,
-        include: path.join(__dirname, 'src'),
-        loaders: ['react-hot', 'babel']
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        include: __dirname,
+        loader: 'babel',
+        query: {
+          presets: ['react-hmre']
+        }
       },
       {
         test: /\.scss$/,

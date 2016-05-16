@@ -1,13 +1,5 @@
 import React from 'react'
 
-class Display extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (this.props.if) ? <div>{this.props.children}</div> : null
-  }
-}
+const Display = (props) => props.if ? props.children : null
 
 export default Display

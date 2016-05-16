@@ -1,4 +1,4 @@
-module.exports = function karmaConfig (config) {
+module.exports = function karmaConfig(config) {
   config.set({
 
     frameworks: [

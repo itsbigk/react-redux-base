@@ -1,36 +1,38 @@
-import http from 'http'
-import express from 'express'
+import Express from 'express'
 import React from 'react'
+import { renderToString } from 'react-dom/server'
+import { Provider } from 'react-redux'
+import configureStore from '../src/store/configureStore'
+import path from 'path'
+import qs from 'qs'
 import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
-import config from '../webpack.config.dev.js'
+import webpackConfig from '../webpack.config.dev'
 import { RouterContext, match } from 'react-router'
-import { renderToString } from 'react-dom/server'
 import createLocation from 'history/lib/createLocation'
-import routes from '../src/config/routes.jsx'
+import routes from '../src/config/routes'
 import bodyParser from 'body-parser'
 import methodOverride from 'method-override'
 import morgan from 'morgan'
 import api from './api'
 import db from './db'
 
-const app  = express()
+const app = new Express()
 const port = process.env.PORT || 3000
-const compiler = webpack(config)
+const compiler = webpack(webpackConfig)
 
 if(process.env.NODE_ENV === 'production') {
 
-  app.use(express.static('./dist'))
-
+  app.use(Express.static('./dist'))
+  var bundleDir = 'bundle.js'
+  
 } else if(process.env.NODE_ENV === 'development') {
 
-  app.use(express.static('./public'))
+  var bundleDir = webpackConfig.output.publicPath + 'bundle.js'
 }
 
-app.server = http.createServer(app)
-
-app.use(express.static('./node_modules'))
+app.use(Express.static('./node_modules'))
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -43,41 +45,41 @@ db(() => {
   app.use('/api', api())
 
   if(process.env.NODE_ENV === 'development') {
-
-    app.use(webpackDevMiddleware(compiler, {
-      hot: true,
-      filename: 'bundle.js',
-      publicPath: '/assets/',
-      stats: {
-        colors: true,
-      },
-      historyApiFallback: true,
-    }))
-
-    app.use(webpackHotMiddleware(compiler, {
-      log: console.log,
-      path: '/__webpack_hmr',
-      heartbeat: 10 * 1000,
-    }))
+    app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }))
+    app.use(webpackHotMiddleware(compiler))
   }
 
   app.use((req, res) => {
+    const params = qs.parse(req.query)
+    const counter = parseInt(params.counter, 10) || 0
+    console.log({counter})
+    const initialState = { counter }
+    const store = configureStore(initialState)
 
     let location = createLocation(req.path)
 
     match({routes, location}, (error, redirectLocation, renderProps) => {
-      const initialComponent = renderToString(<RouterContext {...renderProps} />)
+      const initialComponent = renderToString(
+        <Provider store={store}>
+          <RouterContext {...renderProps} />
+        </Provider>
+      )
+
+      const finalState = store.getState()
 
       const HTML = `
-      <!DOCTYPE html>
+      <!doctype html>
       <html>
         <head>
           <meta charset="utf-8">
           <title>Node/React</title>
         </head>
         <body>
-          <div id="app">` + initialComponent + `</div>
-          <script src="bundle.js"></script>
+          <div id="app">${initialComponent}</div>
+          <script>
+            window.__INITIAL_STATE__ = ${JSON.stringify(finalState)}
+          </script>
+          <script src="${bundleDir}"></script>
         </body>
       </html>
       `
@@ -93,8 +95,12 @@ db(() => {
     })
   })
 
-  app.server.listen(port, () => {
-    console.log('Server running on http://localhost:%s', port)
+  app.listen(port, (error) => {
+    if (error) {
+      console.error(error)
+    } else {
+      console.info(`==> 🌎  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`)
+    }
   })
 })
 
