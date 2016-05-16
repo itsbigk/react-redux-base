@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "build": "webpack --config webpack.config.prod.js; ./node_modules/.bin/babel server -d lib",
-    "dev": "webpack --config webpack.config.dev.js; NODE_ENV=development nodemon index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
     "start": "webpack --config webpack.config.prod.js; NODE_ENV=production node ./lib/server.js",
     "test": "./node_modules/karma/bin/karma start",
     "tdd": "./node_modules/karma/bin/karma start --auto-watch --no-single-run"
@@ -23,22 +23,27 @@
   "dependencies": {
     "body-parser": "^1.14.0",
     "express": "^4.13.3",
-    "flux": "^2.1.1",
     "kerberos": "0.0.18",
     "keymirror": "^0.1.1",
     "method-override": "^2.3.5",
     "mongoose": "^4.1.7",
     "morgan": "^1.6.1",
     "node-sass": "^3.4.2",
-    "react": "^0.14.7",
-    "react-dom": "^0.14.7",
-    "react-router": "^2.0.0"
+    "qs": "^6.1.0",
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.3.0",
+    "redux": "^3.5.1",
+    "redux-thunk": "^2.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.6.4",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.6.0",
     "babel-preset-react": "^6.5.0",
+    "babel-preset-react-hmre": "^1.1.1",
+    "babel-runtime": "^6.6.1",
     "css-loader": "^0.23.1",
     "expect.js": "^0.3.1",
     "file-loader": "^0.8.5",
@@ -59,7 +64,7 @@
     "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
-    "webpack": "^1.12.12",
+    "webpack": "^1.13.0",
     "webpack-dev-middleware": "^1.4.0",
     "webpack-hot-middleware": "^2.6.0"
   }

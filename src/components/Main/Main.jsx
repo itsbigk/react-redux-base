@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router'
+import '../../scss/application.scss'
 
-if(process.env.BROWSER) {
-  require('../../scss/application')
-}
+// if(process.env.BROWSER) {
+//   require('../../scss/application.scss')
+// }
 
 class Main extends React.Component {
   constructor(props) {

@@ -1,5 +1,7 @@
 import keyMirror from 'keyMirror'
 
-export var AppTypes = keyMirror({
-  APP_INIT: null
+export const AppTypes = keyMirror({
+  SET_COUNTER: null,
+  INCREMENT_COUNTER: null,
+  DECREMENT_COUNTER: null
 })

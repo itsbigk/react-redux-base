@@ -1,22 +1,35 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as CounterActions from '../../actions'
+import './style.scss'
 
-if(process.env.BROWSER) {
-  require('./style')
+// if(process.env.BROWSER) {
+//   require('./style')
+// }
+
+const Home = ({ increment, incrementIfOdd, incrementAsync, decrement, counter }) => (
+  <p>
+    Clicked: {counter} times
+    {'  '}
+    <button onClick={increment}>+</button>
+    {' '}
+    <button onClick={decrement}>-</button>
+    {' '}
+    <button onClick={incrementIfOdd}>Increment if odd</button>
+    {' '}
+    <button onClick={() => incrementAsync()}>Increment async</button>
+  </p>
+)
+
+function mapStateToProps(state) {
+  return {
+    counter: state.counter
+  }
 }
 
-class Home extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <div className="home">
-        <h1 className="test">Working app!</h1>
-      </div>
-    )
-  }
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(CounterActions, dispatch)
 }
 
-export default Home
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
