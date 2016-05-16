@@ -1,7 +1,7 @@
 {
-  "name": "node-react",
-  "version": "0.0.1",
-  "description": "Using node and react with webpack",
+  "name": "react-redux-base",
+  "version": "0.0.2",
+  "description": "React Redux base app with node and webpack",
   "main": "server.js",
   "scripts": {
     "build": "webpack --config webpack.config.prod.js; ./node_modules/.bin/babel server -d lib",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/itsbigk/node-react.git"
+    "url": "git+https://github.com/itsbigk/react-redux-base.git"
   },
   "author": "Kyle Knott",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/itsbigk/node-react/issues"
+    "url": "https://github.com/itsbigk/react-redux-base/issues"
   },
-  "homepage": "https://github.com/itsbigk/node-react#readme",
+  "homepage": "https://github.com/itsbigk/react-redux-base#readme",
   "dependencies": {
     "body-parser": "^1.14.0",
     "express": "^4.13.3",
