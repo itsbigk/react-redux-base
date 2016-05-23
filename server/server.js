@@ -21,15 +21,16 @@ import db from './db'
 const app = new Express()
 const port = process.env.PORT || 3000
 const compiler = webpack(webpackConfig)
+let bundleDir
 
 if(process.env.NODE_ENV === 'production') {
 
   app.use(Express.static('./dist'))
-  var bundleDir = 'bundle.js'
-  
+  bundleDir = 'bundle.js'
+
 } else if(process.env.NODE_ENV === 'development') {
 
-  var bundleDir = webpackConfig.output.publicPath + 'bundle.js'
+  bundleDir = webpackConfig.output.publicPath + 'bundle.js'
 }
 
 app.use(Express.static('./node_modules'))

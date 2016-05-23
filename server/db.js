@@ -9,6 +9,6 @@ export default function(callback) {
   })
 
   mongoose.connection.on('error', (err) => {
-    console.log('Could not connect to mongo server! Error: %s', err)
+    console.log(`Could not connect to mongo server! Error: ${err}`)
   })
 }

@@ -5,7 +5,7 @@ import { Main } from '../components/Main'
 import { Home } from '../components/Home'
 import { NotFound } from '../components/NotFound'
 
-var routes = (
+const routes = (
   <Router history={browserHistory}>
     <Route path="/" component={Main}>
       <Route path="home" component={Home} />
