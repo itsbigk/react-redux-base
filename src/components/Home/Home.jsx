@@ -1,7 +1,4 @@
 import React from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import * as CounterActions from '../../actions'
 import './style.scss'
 
 // if(process.env.BROWSER) {
@@ -9,7 +6,7 @@ import './style.scss'
 // }
 
 const Home = ({ increment, incrementIfOdd, incrementAsync, decrement, counter }) => (
-  <p>
+  <div className="home">
     Clicked: {counter} times
     {'  '}
     <button onClick={increment}>+</button>
@@ -19,17 +16,7 @@ const Home = ({ increment, incrementIfOdd, incrementAsync, decrement, counter })
     <button onClick={incrementIfOdd}>Increment if odd</button>
     {' '}
     <button onClick={() => incrementAsync()}>Increment async</button>
-  </p>
+  </div>
 )
 
-function mapStateToProps(state) {
-  return {
-    counter: state.counter
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(CounterActions, dispatch)
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default Home
