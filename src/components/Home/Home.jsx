@@ -1,5 +1,6 @@
 import React from 'react'
-import './style.scss'
+
+process.env.BROWSER ? require('./style.scss') : null
 
 const Home = ({ increment, incrementIfOdd, incrementAsync, decrement, counter }) => (
   <div className="home">

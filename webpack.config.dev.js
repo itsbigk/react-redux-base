@@ -17,12 +17,12 @@ module.exports = {
     new webpack.NoErrorsPlugin()
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx', '.scss']
+    extensions: ['', '.js', '.jsx']
   },
   output: {
     filename: 'bundle.js',
     path:`${__dirname}/public`,
-    publicPath: '/assets/'
+    publicPath: '/assets'
   },
   devtool: 'inline-source-map',
   module: {
