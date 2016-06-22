@@ -1,10 +1,6 @@
 import React from 'react'
 import './style.scss'
 
-// if(process.env.BROWSER) {
-//   require('./style')
-// }
-
 const Home = ({ increment, incrementIfOdd, incrementAsync, decrement, counter }) => (
   <div className="home">
     Clicked: {counter} times
