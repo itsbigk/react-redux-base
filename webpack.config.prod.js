@@ -1,11 +1,14 @@
-var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack'),
+      path = require('path');
 
 module.exports = {
   entry: [
     './src/App.jsx'
   ],
   plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: { warnings: false }
+    }),
     new webpack.DefinePlugin({
       "process.env": {
         BROWSER: JSON.stringify(true)
@@ -13,25 +16,17 @@ module.exports = {
     })
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', '.scss']
   },
   output: {
-    filename: 'bundle.js',
-    path: __dirname + '/dist'
+    filename: 'bundle.min.js',
+    path: `${__dirname}/dist`
   },
-  devtool: 'source-map',
   module: {
-    preLoaders: [
-        {
-            test: /\.(js|jsx|scss)$/,
-            exclude: /(node_modules|bower_components)/,
-            loader: 'source-map-loader'
-        }
-    ],
     loaders: [
       {
-        test: /\.(js|jsx)$/,
-        exclude: /(node_modules|bower_components)/,
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
         include: path.join(__dirname, 'src'),
         loader: 'babel'
       },

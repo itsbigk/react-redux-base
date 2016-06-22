@@ -18,19 +18,20 @@ import morgan from 'morgan'
 import api from './api'
 import db from './db'
 
-const app = new Express()
-const port = process.env.PORT || 3000
-const compiler = webpack(webpackConfig)
+const app = new Express(),
+      port = process.env.PORT || 3000,
+      compiler = webpack(webpackConfig);
+
 let bundleDir
 
 if(process.env.NODE_ENV === 'production') {
 
   app.use(Express.static('./dist'))
-  bundleDir = 'bundle.js'
+  bundleDir = 'bundle.min.js'
 
 } else if(process.env.NODE_ENV === 'development') {
 
-  bundleDir = webpackConfig.output.publicPath + 'bundle.js'
+  bundleDir = `${webpackConfig.output.publicPath}/bundle.js`
 }
 
 app.use(Express.static('./node_modules'))
@@ -51,11 +52,10 @@ db(() => {
   }
 
   app.use((req, res) => {
-    const params = qs.parse(req.query)
-    const counter = parseInt(params.counter, 10) || 0
-    console.log({counter})
-    const initialState = { counter }
-    const store = configureStore(initialState)
+    const params = qs.parse(req.query),
+          counter = parseInt(params.counter, 10) || 0,
+          initialState = { counter },
+          store = configureStore(initialState);
 
     let location = createLocation(req.path)
 
@@ -64,11 +64,9 @@ db(() => {
         <Provider store={store}>
           <RouterContext {...renderProps} />
         </Provider>
-      )
-
-      const finalState = store.getState()
-
-      const HTML = `
+      ),
+      finalState = store.getState(),
+      HTML = `
       <!doctype html>
       <html>
         <head>
@@ -83,7 +81,7 @@ db(() => {
           <script src="${bundleDir}"></script>
         </body>
       </html>
-      `
+      `;
 
       if(redirectLocation)
         res.redirect(301, redirectLocation.pathname + redirectLocation.search)
@@ -96,7 +94,7 @@ db(() => {
     })
   })
 
-  app.listen(port, (error) => {
+  app.listen(port, error => {
     if (error) {
       console.error(error)
     } else {

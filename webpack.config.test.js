@@ -1,25 +1,24 @@
-var webpack = require('webpack'),
-    path    = require('path');
+const webpack = require('webpack'),
+      path    = require('path');
 
 module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx', '.scss']
   },
-  devtool: 'inline-source-map',
   module: {
     preLoaders: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.jsx?$/,
         include: path.resolve(__dirname, '/src/components/'),
-        exclude: ['/node_modules/', /\.spec\.jsx$/],
+        exclude: ['/node_modules/', /\.spec\.jsx?$/],
         loader: 'istanbul-instrumenter'
       }
     ],
     loaders: [
       {
-        test: /\.(js|jsx)$/,
-        exclude: /(node_modules|bower_components)/,
-        loaders: ['babel']
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: 'babel'
       },
       {
         test: /\.scss$/,
