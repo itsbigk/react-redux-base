@@ -8,11 +8,6 @@ module.exports = {
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
       compress: { warnings: false }
-    }),
-    new webpack.DefinePlugin({
-      "process.env": {
-        BROWSER: JSON.stringify(true)
-      }
     })
   ],
   resolve: {
@@ -32,7 +27,8 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ["style", "css?sourceMap", "sass?sourceMap"]
+        loaders: ["style", "css?sourceMap", "sass?sourceMap"],
+        includePaths: [path.resolve(__dirname, '/node_modules/foundation-sites/scss/')]
       },
       { test: /\.gif$/, loader: "url-loader?limit=10000&mimetype=image/gif" },
       { test: /\.jpg$/, loader: "url-loader?limit=10000&mimetype=image/jpg" },
