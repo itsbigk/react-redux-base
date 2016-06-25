@@ -9,7 +9,12 @@ module.exports = {
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env':  {
+        'BROWSER': JSON.stringify(true)
+      }
+    })
   ],
   resolve: {
     extensions: ['', '.js', '.jsx']
@@ -40,7 +45,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ['style', 'css?sourceMap', 'sass?sourceMap'],
+        loader: 'style!css?sourceMap!sass?sourceMap',
         includePaths: [] // example: [path.resolve(__dirname, '/node_modules/foundation-sites/scss/')]
       },
       { test: /\.gif$/, loader: 'url-loader?limit=10000&mimetype=image/gif' },

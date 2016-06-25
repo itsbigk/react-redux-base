@@ -1,5 +1,6 @@
 import React from 'react'
-import styles from './style.scss'
+
+process.env.BROWSER ? require('./style.scss') : null
 
 class Home extends React.Component {
   render() {

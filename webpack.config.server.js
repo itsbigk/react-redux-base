@@ -26,7 +26,7 @@ module.exports = {
   },
   output: {
     filename: 'bundle.server.js',
-    path: __dirname + '/lib'
+    path: __dirname + '/dist'
   },
   externals: nodeModules,
   module: {
@@ -35,7 +35,13 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel'
-      }
+      },
+      { test: /\.gif$/, loader: 'url-loader?limit=10000&mimetype=image/gif' },
+      { test: /\.jpg$/, loader: 'url-loader?limit=10000&mimetype=image/jpg' },
+      { test: /\.png$/, loader: 'url-loader?limit=10000&mimetype=image/png' },
+      { test: /\.svg/, loader: 'url-loader?limit=26000&mimetype=image/svg+xml' },
+      { test: /\.(woff|woff2|ttf|eot)/, loader: 'url-loader?limit=1' },
+      { test: /\.json$/, loader: 'json-loader'}
     ]
   },
   __dirname: true

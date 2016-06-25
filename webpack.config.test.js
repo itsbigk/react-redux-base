@@ -6,6 +6,13 @@ module.exports = {
     extensions: ['', '.js', '.jsx']
   },
   module: {
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env':  {
+          'BROWSER': JSON.stringify(true)
+        }
+      })
+    ],
     preLoaders: [
       {
         test: /\.jsx?$/,
