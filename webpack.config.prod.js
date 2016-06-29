@@ -1,5 +1,6 @@
 const webpack = require('webpack'),
-      path = require('path');
+      path = require('path'),
+      ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: [
@@ -8,14 +9,21 @@ module.exports = {
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
       compress: { warnings: false }
-    })
+    }),
+    new webpack.DefinePlugin({
+      'process.env':  {
+        'NODE_ENV': JSON.stringify('production'),
+        'BROWSER': JSON.stringify(true)
+      }
+    }),
+    new ExtractTextPlugin('bundle.css', { allChunks: false })
   ],
   resolve: {
     extensions: ['', '.js', '.jsx', '.scss']
   },
   output: {
     filename: 'bundle.min.js',
-    path: `${__dirname}/dist`
+    path: `${__dirname}/dist/ui`
   },
   module: {
     loaders: [
@@ -27,8 +35,8 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ["style", "css?sourceMap", "sass?sourceMap"],
-        includePaths: [path.resolve(__dirname, '/node_modules/foundation-sites/scss/')]
+        loader: ExtractTextPlugin.extract('style', 'css!sass'),
+        includePaths: [] // example: [path.resolve(__dirname, '/node_modules/foundation-sites/scss/')]
       },
       { test: /\.gif$/, loader: "url-loader?limit=10000&mimetype=image/gif" },
       { test: /\.jpg$/, loader: "url-loader?limit=10000&mimetype=image/jpg" },

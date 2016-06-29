@@ -6,6 +6,13 @@ module.exports = {
     extensions: ['', '.js', '.jsx']
   },
   module: {
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env':  {
+          'BROWSER': JSON.stringify(true)
+        }
+      })
+    ],
     preLoaders: [
       {
         test: /\.jsx?$/,
@@ -23,7 +30,7 @@ module.exports = {
       {
         test: /\.scss$/,
         loaders: ["style", "css?sourceMap", "sass?sourceMap"],
-        includePaths: [path.resolve(__dirname, '/node_modules/foundation-sites/scss/')]
+        includePaths: [] // example: [path.resolve(__dirname, '/node_modules/foundation-sites/scss/')]
       }
     ]
   }

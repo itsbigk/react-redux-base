@@ -26,7 +26,7 @@ let bundleDir
 
 if(process.env.NODE_ENV === 'production') {
 
-  app.use(Express.static('./dist'))
+  app.use(Express.static('./dist/ui'))
   bundleDir = 'bundle.min.js'
 
 } else if(process.env.NODE_ENV === 'development') {
@@ -72,6 +72,7 @@ db(() => {
         <head>
           <meta charset="utf-8">
           <title>Node/React</title>
+          <link rel="stylesheet" href="bundle.css" />
         </head>
         <body>
           <div id="app">${initialComponent}</div>
