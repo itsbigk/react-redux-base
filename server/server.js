@@ -32,10 +32,9 @@ if(process.env.NODE_ENV === 'production') {
 } else if(process.env.NODE_ENV === 'development') {
 
   bundleDir = `${webpackConfig.output.publicPath}/bundle.js`
+  app.use(morgan('dev'))
 }
 
-app.use(Express.static('./node_modules'))
-app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.text())
