@@ -29,14 +29,14 @@ module.exports = {
     preLoaders: [
         {
             test: /\.(js|jsx|scss)$/,
-            exclude: /node_modules/,
+            exclude: [/node_modules/, /\.spec\.jsx?$/],
             loader: 'source-map-loader'
         }
     ],
     loaders: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /\.spec\.jsx?$/],
         include: __dirname,
         loader: 'babel',
         query: {

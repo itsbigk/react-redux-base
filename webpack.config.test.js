@@ -17,7 +17,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         include: path.resolve(__dirname, '/src/components/'),
-        exclude: ['/node_modules/', /\.spec\.jsx?$/],
+        exclude: [/node_modules/, /\.spec\.jsx?$/],
         loader: 'istanbul-instrumenter'
       }
     ],
