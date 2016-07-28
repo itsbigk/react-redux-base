@@ -33,10 +33,8 @@ export function incrementIfOdd() {
   }
 }
 
-export function incrementAsync(delay = 1000) {
-  return dispatch => {
-    setTimeout(() => {
-      dispatch(increment())
-    }, delay)
-  }
+export const incrementAsync = (delay = 1000) => dispatch => {
+  setTimeout(() => {
+    dispatch(increment())
+  }, delay)
 }
