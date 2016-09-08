@@ -12,6 +12,7 @@ import webpackConfig from '../webpack.config.dev'
 import { RouterContext, match } from 'react-router'
 import createLocation from 'history/lib/createLocation'
 import routes from '../src/config/routes'
+import manifest from '../dist/ui/manifest.json'
 import bodyParser from 'body-parser'
 import methodOverride from 'method-override'
 import morgan from 'morgan'
@@ -22,16 +23,20 @@ const app = new Express(),
       port = process.env.PORT || 3000,
       compiler = webpack(webpackConfig);
 
-let bundleDir
+let bundle
+let style
+let vendor
 
 if(process.env.NODE_ENV === 'production') {
 
   app.use(Express.static('./dist/ui'))
-  bundleDir = 'bundle.min.js'
+  bundle = manifest['bundle.js']
+  style = manifest['bundle.css']
+  vendor = manifest['vendor.js']
 
 } else if(process.env.NODE_ENV === 'development') {
 
-  bundleDir = `${webpackConfig.output.publicPath}/bundle.js`
+  bundle = `${webpackConfig.output.publicPath}/bundle.js`
   app.use(morgan('dev'))
 }
 
@@ -40,6 +45,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.text())
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }))
 app.use(methodOverride())
+app.set('view engine', 'ejs')
 
 db(() => {
 
@@ -64,24 +70,7 @@ db(() => {
           <RouterContext {...renderProps} />
         </Provider>
       ),
-      finalState = store.getState(),
-      HTML = `
-      <!doctype html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <title>Node/React</title>
-          <link rel="stylesheet" href="bundle.css" />
-        </head>
-        <body>
-          <div id="app">${initialComponent}</div>
-          <script>
-            window.__INITIAL_STATE__ = ${JSON.stringify(finalState)}
-          </script>
-          <script src="${bundleDir}"></script>
-        </body>
-      </html>
-      `;
+      finalState = store.getState();
 
       if(redirectLocation)
         res.redirect(301, redirectLocation.pathname + redirectLocation.search)
@@ -90,7 +79,7 @@ db(() => {
       else if(renderProps == null)
         res.send(404, 'Not Found')
       else
-        res.end(HTML)
+        res.render('index.ejs', { bundle: bundle, style: style, vendor: vendor, reactOutput: initialComponent, state: finalState })
     })
   })
 

@@ -1,12 +1,35 @@
 const webpack = require('webpack'),
       path = require('path'),
-      ExtractTextPlugin = require('extract-text-webpack-plugin');
+      pkg = require('./package.json'),
+      ExtractTextPlugin = require('extract-text-webpack-plugin'),
+      ManifestPlugin = require('webpack-manifest-plugin'),
+      ChunkManifestPlugin = require('chunk-manifest-webpack-plugin'),
+      WebpackMd5Hash = require('webpack-md5-hash');
 
 module.exports = {
-  entry: [
-    './src/App.jsx'
-  ],
+  entry: {
+    bundle: './src/App.jsx',
+    vendor: [
+      'react',
+      'react-dom',
+      'react-redux',
+      'react-router',
+      'redux',
+      'redux-thunk'
+    ]
+  },
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: "vendor",
+      minChunks: Infinity,
+    }),
+    new WebpackMd5Hash(),
+    new ManifestPlugin(),
+    new ChunkManifestPlugin({
+      filename: "chunk-manifest.json",
+      manifestVariable: "webpackManifest"
+    }),
+    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: { warnings: false }
     }),
@@ -16,14 +39,15 @@ module.exports = {
         'BROWSER': JSON.stringify(true)
       }
     }),
-    new ExtractTextPlugin('bundle.css', { allChunks: false })
+    new ExtractTextPlugin('bundle.[chunkhash].css', { allChunks: false })
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx', '.scss']
+    extensions: ['', '.js', '.jsx']
   },
   output: {
-    filename: 'bundle.min.js',
-    path: `${__dirname}/dist/ui`
+    path: `${__dirname}/dist/ui`,
+    filename: '[name].[chunkhash].min.js',
+    chunkFilename: '[name].[chunkhash].js'
   },
   module: {
     loaders: [
