@@ -1,6 +1,6 @@
 import Express from 'express'
 import React from 'react'
-import { renderToString } from 'react-dom/server'
+import { renderToStaticMarkup } from 'react-dom/server'
 import { Provider } from 'react-redux'
 import configureStore from '../src/store/configureStore'
 import path from 'path'
@@ -10,8 +10,7 @@ import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpackConfig from '../webpack.config.dev'
 import { RouterContext, match } from 'react-router'
-import createLocation from 'history/lib/createLocation'
-import routes from '../src/config/routes'
+import routes from '../src/components/routes'
 import manifest from '../dist/ui/manifest.json'
 import bodyParser from 'body-parser'
 import methodOverride from 'method-override'
@@ -62,10 +61,8 @@ db(() => {
           initialState = { counter },
           store = configureStore(initialState);
 
-    let location = createLocation(req.path)
-
-    match({routes, location}, (error, redirectLocation, renderProps) => {
-      const initialComponent = renderToString(
+    match({routes, location: req.url}, (error, redirectLocation, renderProps) => {
+      const initialComponent = renderToStaticMarkup(
         <Provider store={store}>
           <RouterContext {...renderProps} />
         </Provider>
@@ -87,7 +84,7 @@ db(() => {
     if (error) {
       console.error(error)
     } else {
-      console.info(`==> 🌎  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`)
+      console.info(`==> 🌎  Listening on port ${port}. Open http://localhost:${port}/ in your browser.`)
     }
   })
 })

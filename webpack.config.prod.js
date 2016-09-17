@@ -1,6 +1,5 @@
 const webpack = require('webpack'),
       path = require('path'),
-      pkg = require('./package.json'),
       ExtractTextPlugin = require('extract-text-webpack-plugin'),
       ManifestPlugin = require('webpack-manifest-plugin'),
       ChunkManifestPlugin = require('chunk-manifest-webpack-plugin'),
@@ -42,7 +41,7 @@ module.exports = {
     new ExtractTextPlugin('bundle.[chunkhash].css', { allChunks: false })
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', '.scss']
   },
   output: {
     path: `${__dirname}/dist/ui`,
@@ -59,8 +58,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style', 'css!sass'),
-        includePaths: [] // example: [path.resolve(__dirname, '/node_modules/foundation-sites/scss/')]
+        loader: ExtractTextPlugin.extract('style', 'css!sass')
       },
       { test: /\.gif$/, loader: "url-loader?limit=10000&mimetype=image/gif" },
       { test: /\.jpg$/, loader: "url-loader?limit=10000&mimetype=image/jpg" },

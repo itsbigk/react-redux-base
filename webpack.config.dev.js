@@ -17,7 +17,7 @@ module.exports = {
     })
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', '.scss']
   },
   output: {
     filename: 'bundle.js',
@@ -45,8 +45,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: 'style!css?sourceMap!sass?sourceMap',
-        includePaths: [] // example: [path.resolve(__dirname, '/node_modules/foundation-sites/scss/')]
+        loader: 'style!css?sourceMap!sass?sourceMap'
       },
       { test: /\.gif$/, loader: 'url-loader?limit=10000&mimetype=image/gif' },
       { test: /\.jpg$/, loader: 'url-loader?limit=10000&mimetype=image/jpg' },

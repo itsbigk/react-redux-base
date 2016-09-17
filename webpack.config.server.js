@@ -12,29 +12,32 @@ module.exports = {
   entry: [
     './server/server.js'
   ],
+  externals: nodeModules,
   target: 'node',
   plugins: [
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify('production')
       }
-    }),
-    new webpack.IgnorePlugin(/\.(css|less|scss)$/)
+    })
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', '.scss']
   },
   output: {
     filename: 'bundle.server.js',
     path: __dirname + '/dist'
   },
-  externals: nodeModules,
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel'
+      },
+      {
+        test: /\.scss$/,
+        loader: 'ignore'
       },
       { test: /\.gif$/, loader: 'url-loader?limit=10000&mimetype=image/gif' },
       { test: /\.jpg$/, loader: 'url-loader?limit=10000&mimetype=image/jpg' },

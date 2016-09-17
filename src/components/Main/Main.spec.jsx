@@ -1,20 +1,18 @@
 import React from 'react'
 import Main from './Main'
 import expect from 'expect'
-import TestUtils from 'react-addons-test-utils'
+import { shallow } from 'enzyme'
 
 const renderMain = (props = {}) => {
-  const renderer = TestUtils.createRenderer()
+  const wrapper = shallow(<Main {...props} />)
 
-  renderer.render(<Main {...props} />)
-
-  return renderer.getRenderOutput()
+  return { wrapper }
 }
 
 describe('Conponent: Main', () => {
   it('renders a div', () => {
-    const { props, type } = renderMain()
+    const { wrapper } = renderMain()
 
-    expect(type).toEqual('div')
+    expect(wrapper.type()).toEqual('div')
   })
 })
