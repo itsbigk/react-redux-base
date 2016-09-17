@@ -3,7 +3,14 @@ const webpack = require('webpack'),
 
 module.exports = {
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', '.scss']
+  },
+  externals: {
+    'react/addons': true,
+    'react/lib/ExecutionEnvironment': true,
+    'react/lib/ReactContext': true,
+    'foundation-sites/scss': true,
+    'cheerio': 'window'
   },
   module: {
     plugins: [
@@ -29,8 +36,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ["style", "css?sourceMap", "sass?sourceMap"],
-        includePaths: [] // example: [path.resolve(__dirname, '/node_modules/foundation-sites/scss/')]
+        loader: 'style!css?sourceMap!sass?sourceMap'
       }
     ]
   }

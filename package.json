@@ -7,10 +7,9 @@
     "clean": "rimraf dist",
     "build": "npm run clean; webpack --config webpack.config.prod.js; webpack --config webpack.config.server.js",
     "dev": "NODE_ENV=development nodemon index.js",
-    "postinstall": "npm run build",
     "start": "npm run clean; webpack --config webpack.config.prod.js; webpack --config webpack.config.server.js; NODE_ENV=production node ./dist/bundle.server.js",
-    "tdd": "./node_modules/karma/bin/karma start --auto-watch --no-single-run",
-    "test": "./node_modules/karma/bin/karma start"
+    "tdd": "karma start --auto-watch --no-single-run",
+    "test": "karma start"
   },
   "repository": {
     "type": "git",
@@ -48,10 +47,12 @@
     "babel-runtime": "^6.11.6",
     "chunk-manifest-webpack-plugin": "^0.1.0",
     "css-loader": "^0.25.0",
+    "enzyme": "^2.4.1",
     "expect": "^1.20.2",
     "expect.js": "^0.3.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
+    "ignore-loader": "^0.1.1",
     "istanbul-instrumenter-loader": "^0.2.0",
     "json-loader": "^0.5.4",
     "karma": "^1.2.0",
@@ -64,6 +65,7 @@
     "karma-webpack": "^1.8.0",
     "mocha": "^3.0.2",
     "node-sass": "^3.9.3",
+    "nodemon": "^1.10.2",
     "phantomjs": "^2.1.7",
     "phantomjs-polyfill": "0.0.2",
     "phantomjs-prebuilt": "^2.1.11",
