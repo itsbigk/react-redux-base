@@ -23,7 +23,7 @@ module.exports = {
     preLoaders: [
       {
         test: /\.jsx?$/,
-        include: path.resolve(__dirname, '/src/components/'),
+        include: path.resolve(__dirname, '/src'),
         exclude: [/node_modules/, /\.spec\.jsx?$/],
         loader: 'istanbul-instrumenter'
       }
