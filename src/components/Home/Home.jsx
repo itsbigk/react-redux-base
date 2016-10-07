@@ -8,7 +8,7 @@ class Home extends React.Component {
     return (
       <div className="home">
         Clicked: {counter} times
-        {'  '}
+        {' '}
         <button onClick={increment}>+</button>
         {' '}
         <button onClick={decrement}>-</button>

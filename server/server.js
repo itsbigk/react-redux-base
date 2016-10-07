@@ -1,8 +1,8 @@
-import Express from 'express'
+import express from 'express'
 import React from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { Provider } from 'react-redux'
-import configureStore from '../src/store/configureStore'
+import { routes, configureStore } from '../shared'
 import path from 'path'
 import qs from 'qs'
 import webpack from 'webpack'
@@ -10,7 +10,6 @@ import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpackConfig from '../webpack.config.dev'
 import { RouterContext, match } from 'react-router'
-import routes from '../src/components/routes'
 import manifest from '../dist/ui/manifest.json'
 import bodyParser from 'body-parser'
 import methodOverride from 'method-override'
@@ -18,7 +17,7 @@ import morgan from 'morgan'
 import api from './api'
 import db from './db'
 
-const app = new Express(),
+const app = new express(),
       port = process.env.PORT || 3000,
       compiler = webpack(webpackConfig);
 
@@ -28,7 +27,7 @@ let vendor
 
 if(process.env.NODE_ENV === 'production') {
 
-  app.use(Express.static('./dist/ui'))
+  app.use(express.static('./dist/ui'))
   bundle = manifest['bundle.js']
   style = manifest['bundle.css']
   vendor = manifest['vendor.js']
