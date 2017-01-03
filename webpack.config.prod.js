@@ -32,16 +32,10 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       compress: { warnings: false }
     }),
-    new webpack.DefinePlugin({
-      'process.env':  {
-        'NODE_ENV': JSON.stringify('production'),
-        'BROWSER': JSON.stringify(true)
-      }
-    }),
     new ExtractTextPlugin('bundle.[chunkhash].css', { allChunks: false })
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx', '.scss']
+    extensions: ['', '.js', '.jsx']
   },
   output: {
     path: `${__dirname}/dist/ui`,
@@ -57,8 +51,8 @@ module.exports = {
         loader: 'babel'
       },
       {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style', 'css!sass')
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract('style', 'css?importLoaders=1!postcss')
       },
       { test: /\.gif$/, loader: "url-loader?limit=10000&mimetype=image/gif" },
       { test: /\.jpg$/, loader: "url-loader?limit=10000&mimetype=image/jpg" },

@@ -3,32 +3,25 @@ const webpack = require('webpack'),
 
 module.exports = {
   entry: [
-    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
     './src/App.jsx'
   ],
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env':  {
-        'BROWSER': JSON.stringify(true)
-      }
-    })
+    new webpack.NoErrorsPlugin()
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx', '.scss']
+    extensions: ['', '.js', '.jsx']
   },
   output: {
     filename: 'bundle.js',
-    path:`${__dirname}/public`,
-    publicPath: '/assets'
+    path:`${__dirname}/client/dev`
   },
   devtool: 'inline-source-map',
   module: {
     preLoaders: [
         {
-            test: /\.(js|jsx|scss)$/,
+            test: /\.(js|jsx|css)$/,
             exclude: [/node_modules/, /\.spec\.jsx?$/],
             loader: 'source-map-loader'
         }
@@ -38,14 +31,11 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: [/node_modules/, /\.spec\.jsx?$/],
         include: __dirname,
-        loader: 'babel',
-        query: {
-          presets: ['react-hmre']
-        }
+        loader: 'babel'
       },
       {
-        test: /\.scss$/,
-        loader: 'style!css?sourceMap!sass?sourceMap'
+        test: /\.css$/,
+        loader: 'style!css?sourceMap?importLoaders=1!postcss'
       },
       { test: /\.gif$/, loader: 'url-loader?limit=10000&mimetype=image/gif' },
       { test: /\.jpg$/, loader: 'url-loader?limit=10000&mimetype=image/jpg' },
@@ -54,5 +44,17 @@ module.exports = {
       { test: /\.(woff|woff2|ttf|eot)/, loader: 'url-loader?limit=1' },
       { test: /\.json$/, loader: 'json-loader'}
     ]
+  },
+  devServer: {
+    port: 3000,
+    historyApiFallback: true,
+    contentBase: `${__dirname}/client/dev`,
+    hot: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        secure: false
+      }
+    }
   }
 }
