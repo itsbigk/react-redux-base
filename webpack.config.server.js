@@ -42,6 +42,14 @@ module.exports = {
         test: /\.css$/,
         loader: 'ignore'
       },
+      {
+        test: /\.(jpg|jpeg|gif|png)$/,
+        loader:'ignore'
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|svg)$/,
+        loader: 'ignore'
+      },
       { test: /\.json$/, loader: 'json-loader'}
     ]
   },
