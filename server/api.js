@@ -1,8 +1,8 @@
 import { Router } from 'express'
 // import controllers
 
-export default function() {
-   let api = Router()
+export default () => {
+   const api = Router()
 
    api.get('/', (req, res) => {
      res.json({

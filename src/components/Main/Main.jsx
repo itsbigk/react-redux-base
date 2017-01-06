@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 
-process.env.BROWSER ? require('../../scss/application') : null
+import '../../css/application.css'
 
 class Main extends React.Component {
   constructor(props) {

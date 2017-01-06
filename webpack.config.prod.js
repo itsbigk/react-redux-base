@@ -18,30 +18,29 @@ module.exports = {
     ]
   },
   plugins: [
+    new WebpackMd5Hash(),
+    new ManifestPlugin(),
+    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       name: "vendor",
       minChunks: Infinity,
     }),
-    new WebpackMd5Hash(),
-    new ManifestPlugin(),
     new ChunkManifestPlugin({
       filename: "chunk-manifest.json",
       manifestVariable: "webpackManifest"
     }),
-    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: { warnings: false }
-    }),
-    new webpack.DefinePlugin({
-      'process.env':  {
-        'NODE_ENV': JSON.stringify('production'),
-        'BROWSER': JSON.stringify(true)
-      }
     }),
     new ExtractTextPlugin('bundle.[chunkhash].css', { allChunks: false })
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx', '.scss']
+    extensions: ['', '.js', '.jsx']
   },
   output: {
     path: `${__dirname}/dist/ui`,
@@ -57,14 +56,19 @@ module.exports = {
         loader: 'babel'
       },
       {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style', 'css!sass')
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract('style', 'css?importLoaders=1!postcss')
       },
-      { test: /\.gif$/, loader: "url-loader?limit=10000&mimetype=image/gif" },
-      { test: /\.jpg$/, loader: "url-loader?limit=10000&mimetype=image/jpg" },
-      { test: /\.png$/, loader: "url-loader?limit=10000&mimetype=image/png" },
-      { test: /\.svg/, loader: "url-loader?limit=26000&mimetype=image/svg+xml" },
-      { test: /\.(woff|woff2|ttf|eot)/, loader: "url-loader?limit=1" },
+      {
+        test: /\.(jpg|jpeg|gif|png)$/,
+        exclude: /node_modules/,
+        loader:'url-loader?limit=1024&name=images/[name].[ext]'
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|svg)$/,
+        exclude: /node_modules/,
+        loader: 'url-loader?limit=1024&name=fonts/[name].[ext]'
+      },
       { test: /\.json$/, loader: "json-loader"}
     ]
   }

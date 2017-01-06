@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 
-process.env.BROWSER ? require('./style') : null
+import './style.css'
 
 class NotFound extends React.Component {
   render() {
