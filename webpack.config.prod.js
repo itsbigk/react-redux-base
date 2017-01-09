@@ -23,7 +23,7 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       name: "vendor",
-      minChunks: Infinity,
+      minChunks: Infinity
     }),
     new ChunkManifestPlugin({
       filename: "chunk-manifest.json",

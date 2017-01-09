@@ -1,5 +1,4 @@
 import React from 'react'
-import { Router } from 'express'
 import { renderToString } from 'react-dom/server'
 import { Provider } from 'react-redux'
 import { configureStore } from '../shared'
@@ -46,7 +45,7 @@ const clientRouter = (req, res) => {
             <div id="app">${initialComponent}</div>
               <script src=${vendor} charset="utf-8"></script>
             <script>
-              window.__INITIAL_STATE__ = ${JSON.stringify(finalState)} %>
+              window.__INITIAL_STATE__ = ${JSON.stringify(finalState)}
             </script>
             <script src=${bundle} charset="utf-8"></script>
           </body>

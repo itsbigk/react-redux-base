@@ -9,8 +9,7 @@ const configureStore = initialState => {
     applyMiddleware(thunk)
   )
 
-  if (module.hot) {
-    // Enable Webpack hot module replacement for reducers
+  if(module.hot) {
     module.hot.accept('./reducers', () => {
       const nextRootReducer = require('./reducers').default
       store.replaceReducer(nextRootReducer)
