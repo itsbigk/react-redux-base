@@ -17,6 +17,9 @@
     "type": "git",
     "url": "git+https://github.com/itsbigk/react-redux-base.git"
   },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
   "author": "Kyle Knott",
   "license": "ISC",
   "bugs": {
