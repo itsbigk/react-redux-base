@@ -3,13 +3,12 @@ const webpack = require('webpack'),
 
 module.exports = {
   resolve: {
-    extensions: ['', '.js', '.jsx', '.scss']
+    extensions: ['', '.js', '.jsx']
   },
   externals: {
     'react/addons': true,
     'react/lib/ExecutionEnvironment': true,
     'react/lib/ReactContext': true,
-    'foundation-sites/scss': true,
     'cheerio': 'window'
   },
   module: {
@@ -35,8 +34,8 @@ module.exports = {
         loader: 'babel'
       },
       {
-        test: /\.scss$/,
-        loader: 'style!css?sourceMap!sass?sourceMap'
+        test: /\.css$/,
+        loader: 'style!css?sourceMap?importLoaders=1!postcss'
       }
     ]
   }

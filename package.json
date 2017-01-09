@@ -1,7 +1,7 @@
 {
   "name": "react-redux-base",
   "version": "0.0.3",
-  "description": "React Redux base app with node and webpack",
+  "description": "React/Redux base app with Node",
   "main": "server.js",
   "scripts": {
     "clean": "rimraf dist",
@@ -29,6 +29,7 @@
     "kerberos": "0.0.21",
     "method-override": "^2.3.7",
     "mongoose": "^4.7.6",
+    "morgan": "^1.6.1",
     "qs": "^6.3.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
@@ -64,7 +65,6 @@
     "karma-spec-reporter": "0.0.26",
     "karma-webpack": "^1.8.0",
     "mocha": "^3.0.2",
-    "morgan": "^1.6.1",
     "nodemon": "^1.10.2",
     "phantomjs-polyfill": "0.0.2",
     "phantomjs-prebuilt": "^2.1.11",
