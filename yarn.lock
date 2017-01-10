@@ -817,7 +817,7 @@ browserslist@^1.0.0, browserslist@^1.0.1, browserslist@^1.5.2, browserslist@~1.5
   dependencies:
     caniuse-db "^1.0.30000604"
 
-bson@~1.0.1, bson@~1.0.3:
+bson@~1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/bson/-/bson-1.0.3.tgz#a3b66f724b1673067efc32249e1151205d3ba854"
 
@@ -3286,27 +3286,12 @@ mongodb-core@2.1.2:
     bson "~1.0.1"
     require_optional "~1.0.0"
 
-mongodb-core@2.1.4:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-2.1.4.tgz#97f84cb126606c72585e66066ea3a05e9c20dc9b"
-  dependencies:
-    bson "~1.0.3"
-    require_optional "~1.0.0"
-
 mongodb@2.2.16:
   version "2.2.16"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-2.2.16.tgz#e32ba91cf9e29f371fb38ba0c4a71c3b1f5fae77"
   dependencies:
     es6-promise "3.2.1"
     mongodb-core "2.1.2"
-    readable-stream "2.1.5"
-
-mongodb@2.2.19:
-  version "2.2.19"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-2.2.19.tgz#9d84745f9369ff301df5a1790cf485375f1df7d7"
-  dependencies:
-    es6-promise "3.2.1"
-    mongodb-core "2.1.4"
     readable-stream "2.1.5"
 
 mongoose@^4.7.6:
@@ -3530,7 +3515,7 @@ object-component@0.0.3:
 
 object-inspect@^1.1.0:
   version "1.2.1"
-  resolved "http://registry.npmjs.org/object-inspect/-/object-inspect-1.2.1.tgz#3b62226eb8f6d441751c7d8f22a20ff80ac9dc3f"
+  resolved "https://registry.yarnpkg.com/object-inspect/-/object-inspect-1.2.1.tgz#3b62226eb8f6d441751c7d8f22a20ff80ac9dc3f"
 
 object-is@^1.0.1:
   version "1.0.1"
