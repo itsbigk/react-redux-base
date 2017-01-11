@@ -1,9 +1,9 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import methodOverride from 'method-override'
-import clientRouter from './clientRouter'
 import api from './api'
 import db from './db'
+import clientRouter from './clientRouter'
 
 const app = new express(),
       port = process.env.PORT || 3001;
@@ -24,7 +24,6 @@ db(() => {
 
   if(process.env.NODE_ENV === 'production') {
     app.use(express.static('./dist/ui'))
-
     app.use(clientRouter)
   }
 

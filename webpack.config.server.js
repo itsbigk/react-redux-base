@@ -1,6 +1,4 @@
-const webpack = require('webpack'),
-      path = require('path'),
-      fs = require('fs');
+const fs = require('fs')
 
 let nodeModules = {}
 
@@ -14,44 +12,39 @@ module.exports = {
   ],
   externals: nodeModules,
   target: 'node',
-  plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false }
-    }),
-    new webpack.DefinePlugin({
-      'process.env':  {
-        'NODE_ENV': JSON.stringify('production')
-      }
-    })
-  ],
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx']
+  },
+  resolveLoader: {
+    moduleExtensions: ['-loader']
   },
   output: {
     filename: 'bundle.server.js',
     path: `${__dirname}/dist`
   },
+  performance: {
+    hints: 'error'
+  },
+  stats: 'none',
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
-        loader: 'babel'
+        exclude: [/node_modules/, /\.spec\.jsx?$/],
+        use: 'babel'
       },
       {
         test: /\.css$/,
-        loader: 'ignore'
+        use: 'ignore'
       },
       {
         test: /\.(jpg|jpeg|gif|png)$/,
-        loader:'ignore'
+        use:'ignore'
       },
       {
         test: /\.(woff|woff2|eot|ttf|svg)$/,
-        loader: 'ignore'
-      },
-      { test: /\.json$/, loader: 'json-loader'}
+        use: 'ignore'
+      }
     ]
-  },
-  __dirname: true
+  }
 }

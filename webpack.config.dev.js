@@ -1,48 +1,77 @@
-const webpack = require('webpack'),
-      path = require('path');
+const webpack = require('webpack')
 
 module.exports = {
   entry: [
     './src/App.jsx'
   ],
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx']
+  },
+  resolveLoader: {
+    moduleExtensions: ['-loader']
   },
   output: {
     filename: 'bundle.js',
     path:`${__dirname}/client/dev`
   },
+  performance: {
+    hints: false
+  },
   devtool: 'inline-source-map',
   module: {
-    preLoaders: [
-        {
-            test: /\.(js|jsx|css)$/,
-            exclude: [/node_modules/, /\.spec\.jsx?$/],
-            loader: 'source-map-loader'
-        }
-    ],
-    loaders: [
+    rules: [
+      {
+        test: /\.(js|jsx|css)$/,
+        exclude: [/node_modules/, /\.spec\.jsx?$/],
+        use: 'source-map-loader',
+        enforce: 'pre'
+      },
       {
         test: /\.jsx?$/,
         exclude: [/node_modules/, /\.spec\.jsx?$/],
         include: __dirname,
-        loader: 'babel'
+        use: 'babel'
       },
       {
         test: /\.css$/,
-        loader: 'style!css?sourceMap?importLoaders=1!postcss'
+        use: [
+          'style',
+          {
+            loader: 'css',
+            options: {
+              sourceMap: true,
+              importLoaders: 1
+            }
+          },
+          'postcss'
+        ]
       },
-      { test: /\.gif$/, loader: 'url-loader?limit=10000&mimetype=image/gif' },
-      { test: /\.jpg$/, loader: 'url-loader?limit=10000&mimetype=image/jpg' },
-      { test: /\.png$/, loader: 'url-loader?limit=10000&mimetype=image/png' },
-      { test: /\.svg/, loader: 'url-loader?limit=26000&mimetype=image/svg+xml' },
-      { test: /\.(woff|woff2|ttf|eot)/, loader: 'url-loader?limit=1' },
-      { test: /\.json$/, loader: 'json-loader'}
+      {
+        test: /\.(jpg|jpeg|gif|png)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'url',
+          options: {
+            limit: 1024,
+            name: 'images/[name].[ext]'
+          }
+        }
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|svg)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'url',
+          options: {
+            limit: 1024,
+            name: 'fonts/[name].[ext]'
+          }
+        }
+      }
     ]
   },
   devServer: {
@@ -50,6 +79,7 @@ module.exports = {
     historyApiFallback: true,
     contentBase: `${__dirname}/client/dev`,
     hot: true,
+    stats: 'errors-only',
     proxy: {
       '/api': {
         target: 'http://localhost:3001',
