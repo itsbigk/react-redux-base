@@ -25,7 +25,6 @@ module.exports = {
   performance: {
     hints: 'error'
   },
-  stats: 'none',
   module: {
     rules: [
       {

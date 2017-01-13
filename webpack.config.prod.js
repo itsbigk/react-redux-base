@@ -5,7 +5,7 @@ const webpack = require('webpack'),
 
 module.exports = {
   entry: {
-    bundle: './src/App.jsx',
+    bundle: './src',
     vendor: [
       'react',
       'react-dom',
@@ -40,12 +40,11 @@ module.exports = {
   output: {
     path: `${__dirname}/dist/ui`,
     filename: '[name].[chunkhash].min.js',
-    chunkFilename: '[name].[chunkhash].js'
+    chunkFilename: '[name].[chunkhash].min.js'
   },
   performance: {
     hints: 'error'
   },
-  stats: 'none',
   module: {
     rules: [
       {
