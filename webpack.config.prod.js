@@ -1,7 +1,8 @@
 const webpack = require('webpack'),
       ExtractTextPlugin = require('extract-text-webpack-plugin'),
       ManifestPlugin = require('webpack-manifest-plugin'),
-      WebpackMd5Hash = require('webpack-md5-hash');
+      WebpackMd5Hash = require('webpack-md5-hash'),
+      babelWebpack = require('./babelWebpack');
 
 module.exports = {
   entry: {
@@ -51,7 +52,8 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: [/node_modules/, /\.spec\.jsx?$/],
         include: __dirname,
-        use: 'babel'
+        loader: 'babel',
+        query: babelWebpack
       },
       {
         test: /\.css$/,

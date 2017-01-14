@@ -1,4 +1,5 @@
-const fs = require('fs')
+const fs = require('fs'),
+      babelWebpack = require('./babelWebpack');
 
 let nodeModules = {}
 
@@ -7,9 +8,7 @@ fs.readdirSync('node_modules')
   .forEach(mod => nodeModules[mod] = 'commonjs ' + mod)
 
 module.exports = {
-  entry: [
-    './server/server.js'
-  ],
+  entry: './server',
   externals: nodeModules,
   target: 'node',
   resolve: {
@@ -30,7 +29,8 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: [/node_modules/, /\.spec\.jsx?$/],
-        use: 'babel'
+        loader: 'babel',
+        query: babelWebpack
       },
       {
         test: /\.css$/,
@@ -38,7 +38,7 @@ module.exports = {
       },
       {
         test: /\.(jpg|jpeg|gif|png)$/,
-        use:'ignore'
+        use: 'ignore'
       },
       {
         test: /\.(woff|woff2|eot|ttf|svg)$/,

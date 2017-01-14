@@ -1,4 +1,5 @@
-const path = require('path')
+const path = require('path'),
+      babelWebpack = require('./babelWebpack');
 
 module.exports = {
   externals: {
@@ -22,13 +23,14 @@ module.exports = {
         test: /\.jsx?$/,
         include: path.resolve(__dirname, '/src'),
         exclude: [/node_modules/, /\.spec\.jsx?$/],
-        loader: 'istanbul-instrumenter',
+        use: 'istanbul-instrumenter',
         enforce: 'pre'
       },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: 'babel'
+        loader: 'babel',
+        query: babelWebpack
       },
       {
         test: /\.css$/,
