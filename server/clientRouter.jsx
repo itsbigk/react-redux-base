@@ -1,9 +1,9 @@
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { Provider } from 'react-redux'
-import { configureStore } from '../shared'
+import routes from '../src/routes'
+import configureStore from '../src/configureStore'
 import { RouterContext, match } from 'react-router'
-import { routes } from '../shared'
 import manifest from '../dist/ui/manifest.json'
 import qs from 'qs'
 

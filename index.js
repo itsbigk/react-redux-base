@@ -1,3 +1,3 @@
 require('babel-core/register');
 require('ignore-styles');
-require('./server/server.js');
+require('./server/index.js');

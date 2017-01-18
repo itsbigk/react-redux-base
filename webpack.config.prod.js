@@ -1,11 +1,12 @@
 const webpack = require('webpack'),
       ExtractTextPlugin = require('extract-text-webpack-plugin'),
       ManifestPlugin = require('webpack-manifest-plugin'),
-      WebpackMd5Hash = require('webpack-md5-hash');
+      WebpackMd5Hash = require('webpack-md5-hash'),
+      babelWebpack = require('./babelWebpack');
 
 module.exports = {
   entry: {
-    bundle: './src/App.jsx',
+    bundle: './src',
     vendor: [
       'react',
       'react-dom',
@@ -40,19 +41,19 @@ module.exports = {
   output: {
     path: `${__dirname}/dist/ui`,
     filename: '[name].[chunkhash].min.js',
-    chunkFilename: '[name].[chunkhash].js'
+    chunkFilename: '[name].[chunkhash].min.js'
   },
   performance: {
     hints: 'error'
   },
-  stats: 'none',
   module: {
     rules: [
       {
         test: /\.jsx?$/,
         exclude: [/node_modules/, /\.spec\.jsx?$/],
         include: __dirname,
-        use: 'babel'
+        loader: 'babel',
+        query: babelWebpack
       },
       {
         test: /\.css$/,

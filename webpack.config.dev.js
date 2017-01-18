@@ -1,9 +1,8 @@
-const webpack = require('webpack')
+const webpack = require('webpack'),
+      babelWebpack = require('./babelWebpack');
 
 module.exports = {
-  entry: [
-    './src/App.jsx'
-  ],
+  entry: './src',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
@@ -34,7 +33,8 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: [/node_modules/, /\.spec\.jsx?$/],
         include: __dirname,
-        use: 'babel'
+        loader: 'babel',
+        query: babelWebpack
       },
       {
         test: /\.css$/,
